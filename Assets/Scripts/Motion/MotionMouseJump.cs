@@ -11,9 +11,11 @@ using System.Collections;
 
 public class MotionMouseJump : MonoBehaviour
 {
-	public bool update = true;
-
+	public bool freezeLastCursorPosition = false;
+	
 	public float impulse = 50f;
+
+	public Vector3 lastCursorPosition = Vector3.zero;
 	
 	private Motion motion;
 	
@@ -34,24 +36,71 @@ public class MotionMouseJump : MonoBehaviour
 		
 		if ( Input.GetMouseButton( 1 ) )
 		{			
-			if ( wasd )
+			// toggle?
+		
+			if ( !freezeLastCursorPosition )
 			{
-				// if the WASD component exists, tell them to wait.
-				
-				wasd.wait = true;
+				ImpulseIntoMouse();
 			}
-			
-			// activate the back-up system.
-			
-			motion.backUpX = true;
-			
-			motion.backUpY = true;
-			
-			// impulse the player into the mouse.
-			
-			motion.movement.y = MotionUtility.GetMouseDirectionFrom( transform ).y * impulse;
-			
-			motion.movement.x = MotionUtility.GetMouseDirectionFrom( transform ).x * impulse;
+			else
+			{
+				// back up last x, y.
+				
+				lastCursorPosition = Camera.main.ScreenToWorldPoint( Input.mousePosition );
+			}			
 		}
+		
+		// if toggle, toggle into the last cursor position.
+		
+		if ( freezeLastCursorPosition && lastCursorPosition != Vector3.zero )
+		{
+			Vector3 direction = MotionUtility.GetDirection( transform.position, lastCursorPosition );
+			
+			ImpulseIntoMouse( direction.x, direction.y, impulse );
+		}
+	}
+	
+	
+	/// <summary>
+	/// Impulses the transform into mouse.
+	/// </summary>
+	void ImpulseIntoMouse()
+	{
+		ImpulseIntoMouse( MotionUtility.GetMouseDirectionFrom( transform ).x, MotionUtility.GetMouseDirectionFrom( transform ).y, impulse );
+	}
+
+	
+	/// <summary>
+	/// Impulses the transform into mouse. 
+	/// </summary>
+	/// <param name='xPosition'>
+	/// X position.
+	/// </param>
+	/// <param name='yPosition'>
+	/// Y position.
+	/// </param>
+	/// <param name='impulse'>
+	/// Impulse.
+	/// </param>
+	void ImpulseIntoMouse( float xPosition, float yPosition, float impulse )
+	{
+		if ( wasd )
+		{
+			// if the WASD component exists, tell them to wait.
+				
+			wasd.wait = true;
+		}
+							
+		// activate the back-up system.
+			
+		motion.backUpX = true;
+			
+		motion.backUpY = true;
+		
+		// impulse the player into the mouse.
+			
+		motion.movement.x = xPosition * impulse;
+			
+		motion.movement.y = yPosition * impulse;
 	}
 }

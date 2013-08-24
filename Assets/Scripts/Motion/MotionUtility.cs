@@ -24,6 +24,27 @@ public class MotionUtility
 		return direction;
 	}
 	
+	
+	/// <summary>
+	/// Gets the direction between two positions.
+	/// </summary>
+	/// <returns>
+	/// The direction.
+	/// </returns>
+	/// <param name='fromPos'>
+	/// From position.
+	/// </param>
+	/// <param name='toPos'>
+	/// To position.
+	/// </param>
+	public static Vector3 GetDirection( Vector3 fromPos, Vector3 toPos )
+	{
+		Vector3 direction = ( toPos - fromPos ).normalized;
+		
+		return direction;
+	}
+	
+	
 	/// <summary>
 	/// Cleans the XY negativity.
 	/// </summary>
