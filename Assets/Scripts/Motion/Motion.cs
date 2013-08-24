@@ -10,8 +10,6 @@ using System.Collections;
 
 public class Motion : MonoBehaviour
 {
-	public bool update = true;
-	
 	public bool backUpX = false;
 	
 	public bool backUpY = false;

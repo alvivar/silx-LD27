@@ -3,7 +3,7 @@ using System.Collections;
 
 
 /// <summary>
-/// Allow WASD movement in Motion.
+/// Allow AD (left, right) movement in Motion.
 /// </summary>
 
 [RequireComponent( typeof ( Motion ) )]
