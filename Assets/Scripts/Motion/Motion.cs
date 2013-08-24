@@ -10,17 +10,19 @@ using System.Collections;
 
 public class Motion : MonoBehaviour
 {
-	public bool backUpX = false;
-	
-	public bool backUpY = false;
-	
 	// properties
 	
-	private float layer = 0;
+	public float layer = 0;
 	
 	public float gravity = 0.6f;
 	
 	public float speed = 8f;
+	
+	// configs
+	
+	public bool backUpX = false;
+	
+	public bool backUpY = false;
 	
 	// modifiers
 	
@@ -86,5 +88,14 @@ public class Motion : MonoBehaviour
 		// pure motion
 		
 		controller.Move( movement * Time.deltaTime );
+	}
+	
+
+	void OnControllerColliderHit( ControllerColliderHit hit )
+	{
+		if ( ( controller.collisionFlags & CollisionFlags.Sides ) == 0 )
+		{
+			movement = Vector3.zero;
+		}
 	}
 }

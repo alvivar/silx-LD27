@@ -12,7 +12,7 @@ public class MotionJump : MonoBehaviour
 {
 	public KeyCode key = KeyCode.Space;
 	
-	public float jumpForce = 10f;
+	public float jumpForce = 15;
 		
 	private Motion motion;
 
