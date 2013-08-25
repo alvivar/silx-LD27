@@ -6,10 +6,35 @@ using System.Collections;
 /// Motion system for platform games.
 /// </summary>
 
+public enum Direction
+{
+	None,
+	Left,
+	Right
+}
+
+
 [RequireComponent( typeof ( CharacterController ) )]
 
 public class Motion : MonoBehaviour
 {
+	// output
+	
+	public bool isGrounded
+	{
+		get
+		{
+			return controller.isGrounded;
+		}
+	}
+
+
+	public float velocity = 0;
+	
+	public Vector3 lastPosition = Vector3.zero;
+	
+	public Direction lastDirection = Direction.None;
+	
 	// properties
 	
 	public float layer = 0;
@@ -27,12 +52,10 @@ public class Motion : MonoBehaviour
 	// modifiers
 	
 	public Vector3 movement = Vector3.zero;
-	
-	public Vector3 impulse = Vector3.zero;
-	
+		
 	// core
 	
-	private CharacterController controller;
+	private CharacterController controller = null;
 
 	
 	void Start()
@@ -88,14 +111,30 @@ public class Motion : MonoBehaviour
 		// pure motion
 		
 		controller.Move( movement * Time.deltaTime );
+		
+		// velocity calculation
+		
+		velocity = Vector3.Distance( transform.position, lastPosition );
+		
+		lastPosition = transform.position;
 	}
 	
 
 	void OnControllerColliderHit( ControllerColliderHit hit )
 	{
-		if ( ( controller.collisionFlags & CollisionFlags.Sides ) == 0 )
+		// head collision
+		
+		if ( ( controller.collisionFlags & CollisionFlags.Above ) != 0 )
 		{
 			movement = Vector3.zero;
 		}
+		
+		// foot collision
+		
+		if ( ( controller.collisionFlags & CollisionFlags.Sides ) == 0 && transform.position.y > hit.transform.position.y )
+		{
+			movement = Vector3.zero;
+		}
+
 	}
 }
