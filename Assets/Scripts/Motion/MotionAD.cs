@@ -53,5 +53,19 @@ public class MotionAD : MonoBehaviour
 		// AD
 		
 		motion.movement.x = Input.GetAxisRaw( "Horizontal" );
+		
+		// change the last direction on motion, to tell other components
+		// where we go.
+		// #todo this need to be automatic.
+		
+		if ( motion.movement.x < 0 )
+		{
+			motion.lastDirection = Direction.Left;
+		}
+		
+		if ( motion.movement.x > 0 )
+		{
+			motion.lastDirection = Direction.Right;
+		}
 	}
 }
