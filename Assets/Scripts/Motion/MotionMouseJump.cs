@@ -26,7 +26,7 @@ public class MotionMouseJump : MonoBehaviour
 	{
 		motion = GetComponent<Motion>();
 		
-		wasd = GetComponent<MotionAD>();
+		wasd = GetComponent<MotionAD>(); // have wasd compatibility but is not required to work.
 	}
 
 
