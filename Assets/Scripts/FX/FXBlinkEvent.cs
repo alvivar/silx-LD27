@@ -6,5 +6,5 @@ public class FXBlinkEvent
 {
 	public const string Set = "FXBlinkEvent.Set";
 	
-	public const string Suicide = "FXBlinkEvent.Suicide";
+	public const string RandomSuicide = "FXBlinkEvent.RandomSuicide";
 }

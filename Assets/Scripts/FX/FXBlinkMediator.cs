@@ -26,7 +26,7 @@ public class FXBlinkMediator : MonoBehaviour
 		
 		Messenger.AddListener<float, float>( FXBlinkEvent.Set, SetEventHandler );
 		
-		Messenger.AddListener( FXBlinkEvent.Suicide, SuicideEventHandler );
+		Messenger.AddListener<float>( FXBlinkEvent.RandomSuicide, RandomSuicideEventHandler );
 		
 		// if there is a default material, let's change clothes.
 		
@@ -113,13 +113,32 @@ public class FXBlinkMediator : MonoBehaviour
 	
 	
 	/// <summary>
-	/// Suicide this gameObject.
+	/// Suicides this object on a random limit time.
 	/// </summary>
-	void SuicideEventHandler()
+	/// <param name='randomLimit'>
+	/// Random limit.
+	/// </param>
+	// #todo analize a better suicide timer?
+	void RandomSuicideEventHandler( float randomLimit )
 	{
-		Messenger.RemoveListener<float, float>( FXBlinkEvent.Set, SetEventHandler );
+		if ( this )
+		{
+			Invoke( "Suicide", Random.Range( 0, randomLimit ) );
+		}
+	}
+
+	
+	/// <summary>
+	/// Suicide everything.
+	/// </summary>
+	void Suicide()
+	{
+		if ( this )
+		{
+			Messenger.RemoveListener<float, float>( FXBlinkEvent.Set, SetEventHandler );
 		
-		Messenger.RemoveListener( FXBlinkEvent.Suicide, SuicideEventHandler );
+			Messenger.RemoveListener<float>( FXBlinkEvent.RandomSuicide, RandomSuicideEventHandler );
+		}
 		
 		Destroy( transform.gameObject );
 	}

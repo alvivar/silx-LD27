@@ -6,6 +6,7 @@ using System.Collections;
 /// Shoots rigidbody bullets with an impulse, fire rate and layer
 /// using the mouse as source.
 /// </summary>
+// #todo this class probably need a better fusion with bullet fire generator.
 
 public class BulletFire : MonoBehaviour
 {

@@ -6,7 +6,6 @@ using System.Collections;
 /// How many eyes can an Evastus have?
 /// </summary>
 
-[RequireComponent( typeof ( Rigidbody ) )]
 [RequireComponent( typeof ( FXBlinkMediator ) )]
 
 public class EvastusEye : MonoBehaviour
@@ -15,7 +14,7 @@ public class EvastusEye : MonoBehaviour
 	
 	public int hp = 1;
 	
-	public float massiveCrySuicide = 5;
+	private float massiveCrySuicide = 2;
 	
 	private FXBlinkMediator blinker;
 	
@@ -31,6 +30,15 @@ public class EvastusEye : MonoBehaviour
 	void Start()
 	{
 		blinker = GetComponent<FXBlinkMediator>();
+		
+		// rigidbody config
+		
+		if ( rigidbody )
+		{
+			rigidbody.isKinematic = false;
+		
+			rigidbody.useGravity = false;
+		}
 		
 		// add yourself into the list of eyes!
 		
@@ -69,13 +77,25 @@ public class EvastusEye : MonoBehaviour
 			cryLock = true;
 		}
 		
-		// suicide
+		// suicide 
 		
 		if ( selfDestruct != 0 && Time.time > selfDestruct )
 		{
 			Messenger.Broadcast( CameraEvent.RemoveSecundaryFocus );
 			
-			Messenger.Broadcast( FXBlinkEvent.Suicide );
+			Messenger.Broadcast( FXBlinkEvent.RandomSuicide, 3f );
+			
+			GameObject father = GameObject.FindWithTag( "Evastus" );
+			
+			if ( father )
+			{
+				Evastus evastus = father.GetComponent<Evastus>();
+				
+				if ( evastus )
+				{
+					evastus.SuicideTimer( 3.25f );
+				}
+			}
 		}
 	}
 
