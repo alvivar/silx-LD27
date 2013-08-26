@@ -45,7 +45,7 @@ public class Motion : MonoBehaviour
 	
 	// configs
 	
-	public bool backUpX = true; // this two backup the movement, allowing other components...
+	public bool backUpX = false; // this two backup the movement, allowing other components...
 	
 	public bool backUpY = true; // ...to use the same vector.
 	
