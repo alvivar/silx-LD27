@@ -19,7 +19,13 @@ public class CameraMediator : MonoBehaviour
 
 	void Awake()
 	{
-		Messenger.AddListener<Transform>( CameraEvent.Focus, FocusEventHandler );
+		// event handlers
+		
+		Messenger.AddListener<Transform>( CameraEvent.Focus, SetFocusEventHandler );
+		
+		Messenger.AddListener<Transform>( CameraEvent.SetSecondaryFocus, SetSecondaryFocusEventHandler );
+		
+		Messenger.AddListener( CameraEvent.RemoveSecundaryFocus, RemoveSecondaryFocusHandler );
 	}
 
 
@@ -38,8 +44,6 @@ public class CameraMediator : MonoBehaviour
 		
 		if ( secondaryFocus )
 		{
-			float distanceBetween = Vector3.Distance( currentFocus.position, secondaryFocus.position );
-			
 			Vector3 positionBetween = ( currentFocus.position / 2 ) + ( secondaryFocus.position / 2 );
 			
 			newCameraPosition = new Vector3( positionBetween.x + offset.x, positionBetween.y + offset.y, transform.position.z );
@@ -54,13 +58,37 @@ public class CameraMediator : MonoBehaviour
 	
 	
 	/// <summary>
-	/// Focuses the camera over the transform..
+	/// Sets the focus.
 	/// </summary>
 	/// <param name='focus'>
-	/// Position.
+	/// Focus.
 	/// </param>
-	void FocusEventHandler( Transform focus )
+	void SetFocusEventHandler( Transform focus )
 	{
 		currentFocus = focus;
+	}
+	
+	
+	/// <summary>
+	/// Sets the secondary focus.
+	/// </summary>
+	/// <param name='secondaryFocus'>
+	/// Secondary focus.
+	/// </param>
+	void SetSecondaryFocusEventHandler( Transform secondaryFocus )
+	{
+		this.secondaryFocus = secondaryFocus;
+	}
+
+	
+	/// <summary>
+	/// Removes the secondary focus.
+	/// </summary>
+	void RemoveSecondaryFocusHandler()
+	{
+		if ( secondaryFocus )
+		{
+			secondaryFocus = null;
+		}
 	}
 }

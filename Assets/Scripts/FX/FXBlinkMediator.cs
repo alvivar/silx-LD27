@@ -8,7 +8,9 @@ using System.Collections;
 /// </summary>
 
 public class FXBlinkMediator : MonoBehaviour
-{
+{	
+	public Material defaultMaterial;
+
 	public Material[] materials;
 	
 	public float rate = 0; // if this is 0, it's turned off.
@@ -20,7 +22,18 @@ public class FXBlinkMediator : MonoBehaviour
 	
 	void Awake()
 	{
-		Messenger.AddListener<float, float>( FXBlinkMediatorEvent.Set, SetEventHandler );
+		// Messenger functions
+		
+		Messenger.AddListener<float, float>( FXBlinkEvent.Set, SetEventHandler );
+		
+		Messenger.AddListener( FXBlinkEvent.Suicide, SuicideEventHandler );
+		
+		// if there is a default material, let's change clothes.
+		
+		if ( defaultMaterial )
+		{
+			transform.renderer.material = defaultMaterial;
+		}
 	}
 
 
@@ -28,7 +41,7 @@ public class FXBlinkMediator : MonoBehaviour
 	{
 		// needs to be over 0 to be active.
 		
-		if ( rate < 0 || materials.Length <= 0 )
+		if ( rate <= 0 || materials.Length <= 0 )
 		{
 			return;
 		}
@@ -55,6 +68,7 @@ public class FXBlinkMediator : MonoBehaviour
 	/// <param name='duration'>
 	/// Duration.
 	/// </param>/
+	// #todo this need to be in a utility class.
 	void LerpMaterial( Material origin, Material destiny, float duration )
 	{
 		float lerp = Mathf.PingPong( Time.time, duration ) / duration;
@@ -71,12 +85,12 @@ public class FXBlinkMediator : MonoBehaviour
 	/// </returns>
 	Material RandomMaterial()
 	{
-		return materials[ Random.Range( 0, materials.Length - 1 ) ];
+		return materials[ Random.Range( 0, materials.Length ) ];
 	}
 
 	
 	/// <summary>
-	/// Sets the rate and lerp duration.
+	/// Set the specified rate and lerpDuration.
 	/// </summary>
 	/// <param name='rate'>
 	/// Rate.
@@ -84,10 +98,29 @@ public class FXBlinkMediator : MonoBehaviour
 	/// <param name='lerpDuration'>
 	/// Lerp duration.
 	/// </param>
+	public void Set( float rate, float lerpDuration )
+	{
+		SetEventHandler( rate, lerpDuration );
+	}
+
+
 	void SetEventHandler( float rate, float lerpDuration )
 	{
 		this.rate = rate;
 		
 		this.lerpDuration = lerpDuration;
+	}
+	
+	
+	/// <summary>
+	/// Suicide this gameObject.
+	/// </summary>
+	void SuicideEventHandler()
+	{
+		Messenger.RemoveListener<float, float>( FXBlinkEvent.Set, SetEventHandler );
+		
+		Messenger.RemoveListener( FXBlinkEvent.Suicide, SuicideEventHandler );
+		
+		Destroy( transform.gameObject );
 	}
 }

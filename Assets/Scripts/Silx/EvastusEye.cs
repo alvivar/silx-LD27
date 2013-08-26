@@ -1,15 +1,110 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EvastusEye : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+/// <summary>
+/// How many eyes can an Evastus have?
+/// </summary>
+
+[RequireComponent( typeof ( Rigidbody ) )]
+[RequireComponent( typeof ( FXBlinkMediator ) )]
+
+public class EvastusEye : MonoBehaviour
+{
+	public static int brothers;
 	
+	public int hp = 1;
+	
+	public float massiveCrySuicide = 5;
+	
+	private FXBlinkMediator blinker;
+	
+	private bool deadLock = false; // you only die once.
+	
+	private bool cryLock = true; // the list need to have > 0 elements to activate the cry.
+	
+	private float selfDestruct = 0; // dead activation.
+	
+	private float rate = 0;
+
+	
+	void Start()
+	{
+		blinker = GetComponent<FXBlinkMediator>();
+		
+		// add yourself into the list of eyes!
+		
+		brothers += 1;
 	}
+
+
+	void Update()
+	{
+		// deactivate the lock.
+		
+		if ( cryLock && brothers > 0 )
+		{
+			cryLock = false;
+		}
+		
+		// die if needed. remove yourself from the count. BLINK.
+		
+		if ( !deadLock && hp <= 0 )
+		{
+			blinker.Set( 0.1f, 0.1f );
+			
+			brothers -= 1;
+			
+			deadLock = true;
+		}
+
+		// cry when the list is empty.
+		
+		if ( !cryLock && brothers <= 0 )
+		{
+			Cry();
+			
+			selfDestruct = Time.time + massiveCrySuicide;
+			
+			cryLock = true;
+		}
+		
+		// suicide
+		
+		if ( selfDestruct != 0 && Time.time > selfDestruct )
+		{
+			Messenger.Broadcast( CameraEvent.RemoveSecundaryFocus );
+			
+			Messenger.Broadcast( FXBlinkEvent.Suicide );
+		}
+	}
+
 	
-	// Update is called once per frame
-	void Update () {
+	void OnCollisionEnter( Collision collision )
+	{
+		// respect the rate.
+		
+		if ( rate > Time.time )
+		{
+			return;
+		}
+		
+		// detects collisions from the player bullets.
+		
+		if ( collision.gameObject.tag == "Bullet" && collision.gameObject.layer == LayerMask.NameToLayer( "PlayerFaction" ) )
+		{
+			hp -= 1;
+			
+			rate = Time.time + 0.25f;
+		}
+	}
+
 	
+	/// <summary>
+	/// The dead of the eternals.
+	/// </summary>
+	void Cry()
+	{
+		Messenger.Broadcast<float, float>( FXBlinkEvent.Set, 0.1f, 0.1f );
 	}
 }
