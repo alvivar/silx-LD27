@@ -13,11 +13,11 @@ public class BulletFire : MonoBehaviour
 	
 	public int mouseCode = 0;
 
+	public float layer = 0;
+
 	public float impulse = 10f;
 	
 	public float fireRate = 0.5f;
-	
-	public float layer = 0;
 	
 	private float rateLock = 0;
 

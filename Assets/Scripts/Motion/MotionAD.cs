@@ -3,7 +3,7 @@ using System.Collections;
 
 
 /// <summary>
-/// Allow AD (left, right) movement in Motion.
+/// Allow AD (left, right) movement in Motion with GetAxis.
 /// </summary>
 
 [RequireComponent( typeof ( Motion ) )]
