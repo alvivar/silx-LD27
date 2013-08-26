@@ -36,6 +36,7 @@ public class tk2dAnime : MonoBehaviour
 		{
 			// attack have priority over walk.
 			
+			/* #todo
 			if ( attack )
 			{
 				animator.Play( "Attack" );
@@ -44,6 +45,7 @@ public class tk2dAnime : MonoBehaviour
 			{
 				animator.Play( "Walk" );
 			}
+			*/
 			
 			// change the flipside based on the last direction.
 			// this component assume that the sprite is looking right by default.
