@@ -17,9 +17,7 @@ public class EnemyLocatorCompassMediator : MonoBehaviour
 		}
 		else
 		{
-			// worldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-			
-			transform.Rotate( Vector3.right * Time.deltaTime * 500 );
+			worldPos = GameObject.FindWithTag( Tag.Player ).transform.position;
 		}
         
 		var diff = worldPos - transform.position;

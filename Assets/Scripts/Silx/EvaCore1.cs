@@ -19,8 +19,6 @@ public class EvaCore1 : MonoBehaviour
 		
 		if ( visible && !soundLock )
 		{
-			Messenger.Broadcast( "playclip", 1, true );
-			
 			Messenger.Broadcast( CameraEvent.SetSecondaryFocus, transform );
 			
 			soundLock = true;

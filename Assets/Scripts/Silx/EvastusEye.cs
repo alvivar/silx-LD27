@@ -127,4 +127,10 @@ public class EvastusEye : MonoBehaviour
 	{
 		Messenger.Broadcast<float, float>( FXBlinkEvent.Set, 0.1f, 0.1f );
 	}
+
+	
+	void OnDestroy()
+	{
+		brothers = 0;
+	}
 }

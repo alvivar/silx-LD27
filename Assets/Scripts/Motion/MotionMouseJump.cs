@@ -49,6 +49,10 @@ public class MotionMouseJump : MonoBehaviour
 				lastCursorPosition = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 			}			
 		}
+		else
+		{
+			Screen.lockCursor = false;
+		}
 		
 		// if toggle, toggle into the last cursor position.
 		
