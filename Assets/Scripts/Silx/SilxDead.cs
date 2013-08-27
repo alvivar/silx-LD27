@@ -8,8 +8,10 @@ using System.Collections;
 
 public class SilxDead : MonoBehaviour
 {
-	public float hp = 1;
+	public float hp = 3;
 	
+	public GUIText text; // to show the lifes.
+
 	private float rate = 0;
 
 
@@ -19,6 +21,38 @@ public class SilxDead : MonoBehaviour
 		{
 			Destroy( gameObject );
 		}
+		
+		// prints the lives on screen.
+		
+		if ( text )
+		{
+			switch ( (int) hp )
+			{
+				case 3:
+					
+					text.text = "III";
+					
+					break;
+					
+				case 2:
+					
+					text.text = "II";
+					
+					break;
+
+				case 1:
+					
+					text.text = "I";
+					
+					break;
+					
+				default:
+					
+					text.text = "";
+					
+					break;
+			}
+		}		
 	}
 
 	
@@ -37,7 +71,7 @@ public class SilxDead : MonoBehaviour
 		{
 			hp -= 1;
 			
-			rate = Time.time + 0.25f;
+			rate = Time.time + 1f; // 1 seconds invulnerability
 		}
 	}
 }
