@@ -30,25 +30,28 @@ public class SilxDead : MonoBehaviour
 			{
 				case 3:
 					
-					text.text = "III";
+					text.text = "X X X";
 					
 					break;
 					
 				case 2:
 					
-					text.text = "II";
+					text.text = "X X";
 					
 					break;
 
 				case 1:
 					
-					text.text = "I";
+					text.text = "X";
 					
 					break;
 					
 				default:
 					
-					text.text = "";
+					if ( hp <= 0 )
+					{
+						text.text = "game over - R to restart";
+					}
 					
 					break;
 			}

@@ -8,16 +8,6 @@ using System.Collections;
 
 public class Evastus : MonoBehaviour
 {
-	void Start()
-	{
-	}
-
-
-	void Update()
-	{
-	}
-
-	
 	/// <summary>
 	/// Suicides on timer.
 	/// </summary>

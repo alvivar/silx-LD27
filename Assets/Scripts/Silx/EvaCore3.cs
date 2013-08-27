@@ -6,7 +6,7 @@ using System.Collections;
 /// Eva core: hardcoded boss stuff.
 /// </summary>
 
-public class EvaCore1 : MonoBehaviour
+public class EvaCore3 : MonoBehaviour
 {
 	private bool soundLock = false;
 
@@ -19,8 +19,6 @@ public class EvaCore1 : MonoBehaviour
 		
 		if ( visible && !soundLock )
 		{
-			Messenger.Broadcast( "playclip", 1, true );
-			
 			Messenger.Broadcast( CameraEvent.SetSecondaryFocus, transform );
 			
 			soundLock = true;
