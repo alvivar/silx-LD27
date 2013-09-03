@@ -15,10 +15,6 @@ public class EnemyLocatorCompassMediator : MonoBehaviour
 		{
 			worldPos = target.position;	
 		}
-		else
-		{
-			worldPos = GameObject.FindWithTag( Tag.Player ).transform.position;
-		}
         
 		var diff = worldPos - transform.position;
  
